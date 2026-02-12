@@ -1,4 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
+
+export interface ImageItem {
+  name: string;
+  image: string;
+}
 
 export interface ImageManagerConfig {
   name: string;
@@ -20,7 +25,7 @@ export interface Product {
 }
 
 export interface ImageDatabase {
-  [category: string]: string[];
+  [category: string]: (string | ImageItem)[];
 }
 
 export interface ProductStats {
@@ -44,31 +49,8 @@ export function useImageManager({
   descriptions = {}
 }: UseImageManagerConfig) {
 
-  // Generar nombre del producto
-  const generateProductName = (filename: string, category: string): string => {
-    const match = filename.match(/(\d+)/);
-    const number = match ? match[1] : '1';
-    const categoryDisplayName = categoryConfig.categoryDisplayNames?.[category] || category;
-    
-    return `${categoryDisplayName} ${number}`;
-  };
-
-  // Obtener descripción por defecto
-  const getDefaultDescription = (category: string, index: number): string => {
-    return `${categoryConfig.categoryDisplayNames?.[category] || category} ${index} - ${
-      categoryConfig.defaultDescription || 'Producto de calidad premium'
-    }`;
-  };
-
-  // Obtener ruta de categoría
-  const getCategoryPath = (category: string): string => {
-    const basePath = './assets/';
-    const subPath = categoryConfig.subcategories?.[category] || '';
-    return `${basePath}${subPath}`;
-  };
-
   // Generar productos para una categoría
-  const generateCategoryProducts = (category: string): Product[] => {
+  const generateCategoryProducts = useCallback((category: string): Product[] => {
     const images = imageDatabase[category];
     
     if (!images || images.length === 0) {
@@ -76,25 +58,57 @@ export function useImageManager({
       return [];
     }
 
-    const basePath = getCategoryPath(category);
+    const basePath = './assets/';
+    const subPath = categoryConfig.subcategories?.[category] || '';
+    const categoryPath = `${basePath}${subPath}`;
 
-    return images.map((filename, index) => ({
-      id: `${categoryConfig.name.toLowerCase().replace(/\s+/g, '-')}-${category}-${index + 1}`,
-      name: generateProductName(filename, category),
-      description: descriptions[filename] || getDefaultDescription(category, index + 1),
-      image: `${basePath}${filename}`,
-      category: category,
-      price: '',
-      link: categoryConfig.link || '#'
-    }));
-  };
+    const products = images.map((item, index) => {
+      // Verificar si es un objeto con name e image, o solo un string (nombre de archivo)
+      const isObject = typeof item === 'object' && item !== null;
+      const imageItem = item as ImageItem;
+      const stringItem = item as string;
+      const filename = isObject ? imageItem.name : stringItem;
+      const imageUrl = isObject ? imageItem.image : `${categoryPath}${stringItem}`;
+      
+      // Generar nombre si es string
+      let productName: string;
+      if (isObject) {
+        productName = imageItem.name;
+      } else {
+        const match = filename.match(/(\d+)/);
+        const number = match ? match[1] : '1';
+        const categoryDisplayName = categoryConfig.categoryDisplayNames?.[category] || category;
+        productName = `${categoryDisplayName} ${number}`;
+      }
+
+      // Generar descripción
+      const defaultDesc = `${categoryConfig.categoryDisplayNames?.[category] || category} ${index + 1} - ${
+        categoryConfig.defaultDescription || 'Producto de calidad premium'
+      }`;
+      const description = descriptions[filename] || defaultDesc;
+      
+      const product = {
+        id: `${categoryConfig.name.toLowerCase().replace(/\s+/g, '-')}-${category}-${index + 1}`,
+        name: productName,
+        description: description,
+        image: imageUrl,
+        category: category,
+        price: '',
+        link: categoryConfig.link || '#'
+      };
+
+      return product;
+    });
+
+    return products;
+  }, [imageDatabase, categoryConfig, descriptions]);
 
   // Obtener todos los productos
   const allProducts = useMemo(() => {
     return Object.keys(imageDatabase).reduce((acc, category) => {
       return [...acc, ...generateCategoryProducts(category)];
     }, [] as Product[]);
-  }, [imageDatabase, categoryConfig, descriptions]);
+  }, [generateCategoryProducts, imageDatabase]);
 
   // Obtener categorías disponibles
   const availableCategories = useMemo(() => {
@@ -115,17 +129,14 @@ export function useImageManager({
   }, [imageDatabase]);
 
   // Obtener productos por categoría
-  const getProductsByCategory = (category: string): Product[] => {
+  const getProductsByCategory = useCallback((category: string): Product[] => {
     return generateCategoryProducts(category);
-  };
+  }, [generateCategoryProducts]);
 
   return {
     allProducts,
     availableCategories,
     productStats,
-    getProductsByCategory,
-    getCategoryPath,
-    generateProductName,
-    getDefaultDescription
+    getProductsByCategory
   };
 }

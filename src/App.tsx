@@ -38,22 +38,49 @@ const demoProducts = [
   },
 ];
 
-// Configuración demo para ImageManager
+// Configuración demo para ImageManager - Usando URLs reales de imágenes
 const imageDatabaseDemo = {
   'ramos': [
-    'ramo1.jpg',
-    'ramo2.jpg',
-    'ramo3.jpg'
+    {
+      name: 'Ramos Clásicos',
+      image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Ramos Elegantes',
+      image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Ramos Modernos',
+      image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80'
+    }
   ],
   'decoracion': [
-    'centro1.jpg',
-    'centro2.jpg'
+    {
+      name: 'Centros de Mesa',
+      image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Detalles Especiales',
+      image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=400&q=80'
+    }
   ],
   'bodas': [
-    'boda1.jpg',
-    'boda2.jpg',
-    'boda3.jpg',
-    'boda4.jpg'
+    {
+      name: 'Arreglo de Novias',
+      image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Bouquets Nupciales',
+      image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Decoración de Templo',
+      image: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      name: 'Ramos de Dama',
+      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80'
+    }
   ]
 };
 
@@ -137,6 +164,7 @@ function App() {
         <div>
           <h1>Demo Image Manager</h1>
           <ImageManager
+            key="image-manager-v2" 
             categoryConfig={categoryConfigDemo}
             imageDatabase={imageDatabaseDemo}
           />

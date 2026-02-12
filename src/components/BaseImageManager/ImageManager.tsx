@@ -31,19 +31,43 @@ const ImageManager: React.FC<ImageManagerProps> = ({
 
   // Renderizado por defecto para productos
   const defaultRender = (product: Product) => (
-    <div key={product.id} style={{ 
+    <div style={{ 
       border: '1px solid #ddd', 
       borderRadius: '8px', 
       padding: '1rem',
-      textAlign: 'center'
+      textAlign: 'center',
+      minHeight: '300px',
+      display: 'flex',
+      flexDirection: 'column'
     }}>
       <img 
         src={product.image} 
         alt={product.name}
-        style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '6px' }}
+        style={{ 
+          width: '100%', 
+          height: '200px', 
+          objectFit: 'cover', 
+          borderRadius: '6px',
+          marginBottom: '0.5rem'
+        }}
+        onError={(e) => {
+          console.error('Error cargando imagen:', product.image);
+          (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+          (e.target as HTMLImageElement).alt = 'Error al cargar imagen';
+        }}
       />
-      <h3 style={{ marginTop: '0.5rem' }}>{product.name}</h3>
-      <p style={{ fontSize: '0.9rem', color: '#666' }}>{product.description}</p>
+      <h3 style={{ 
+        marginTop: '0.5rem', 
+        marginBottom: '0.5rem',
+        fontSize: '1.1rem',
+        fontWeight: 'bold'
+      }}>{product.name}</h3>
+      <p style={{ 
+        fontSize: '0.9rem', 
+        color: '#666',
+        margin: 0,
+        flex: 1
+      }}>{product.description}</p>
     </div>
   );
 
@@ -83,9 +107,11 @@ const ImageManager: React.FC<ImageManagerProps> = ({
               gap: '1.5rem',
               marginTop: '1rem'
             }}>
-              {products.map(product => 
-                renderProduct ? renderProduct(product) : defaultRender(product)
-              )}
+              {products.map((product) => (
+                <div key={product.id}>
+                  {renderProduct ? renderProduct(product) : defaultRender(product)}
+                </div>
+              ))}
             </div>
           </div>
         );
