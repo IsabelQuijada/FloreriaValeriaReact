@@ -1,6 +1,7 @@
 
-import React from 'react';
+import { useState } from 'react';
 import ProductManager from './components/ProductManager/ProductManager';
+import ImageManager from './components/BaseImageManager/ImageManager';
 
 const demoProducts = [
   {
@@ -37,7 +38,44 @@ const demoProducts = [
   },
 ];
 
+// Configuración demo para ImageManager
+const imageDatabaseDemo = {
+  'ramos': [
+    'ramo1.jpg',
+    'ramo2.jpg',
+    'ramo3.jpg'
+  ],
+  'decoracion': [
+    'centro1.jpg',
+    'centro2.jpg'
+  ],
+  'bodas': [
+    'boda1.jpg',
+    'boda2.jpg',
+    'boda3.jpg',
+    'boda4.jpg'
+  ]
+};
+
+const categoryConfigDemo = {
+  name: 'Florería Valeria',
+  baseRoute: './assets/',
+  categoryDisplayNames: {
+    'ramos': 'Ramos',
+    'decoracion': 'Decoración',
+    'bodas': 'Bodas'
+  },
+  defaultDescription: 'Producto de calidad premium',
+  subcategories: {
+    'ramos': 'ramos/',
+    'decoracion': 'decoracion/',
+    'bodas': 'bodas/'
+  }
+};
+
 function App() {
+  const [activeView, setActiveView] = useState('productManager');
+
   const globalActions = {
     onQuickView: (product: any) => {
       console.log('Vista rápida:', product.name);
@@ -52,13 +90,58 @@ function App() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>Demo Product Manager</h1>
-      <ProductManager 
-        products={demoProducts} 
-        globalActions={globalActions}
-        showFilters={true}
-        showSearch={true}
-      />
+      {/* Selector de vista */}
+      <div style={{ marginBottom: '2rem', display: 'flex', gap: '1rem' }}>
+        <button 
+          onClick={() => setActiveView('productManager')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: activeView === 'productManager' ? '#e91e63' : '#ddd',
+            color: activeView === 'productManager' ? 'white' : 'black',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          Product Manager
+        </button>
+        <button 
+          onClick={() => setActiveView('imageManager')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: activeView === 'imageManager' ? '#e91e63' : '#ddd',
+            color: activeView === 'imageManager' ? 'white' : 'black',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          Image Manager
+        </button>
+      </div>
+
+      {/* Vistas */}
+      {activeView === 'productManager' && (
+        <div>
+          <h1>Demo Product Manager</h1>
+          <ProductManager 
+            products={demoProducts} 
+            globalActions={globalActions}
+            showFilters={true}
+            showSearch={true}
+          />
+        </div>
+      )}
+
+      {activeView === 'imageManager' && (
+        <div>
+          <h1>Demo Image Manager</h1>
+          <ImageManager
+            categoryConfig={categoryConfigDemo}
+            imageDatabase={imageDatabaseDemo}
+          />
+        </div>
+      )}
     </div>
   );
 }

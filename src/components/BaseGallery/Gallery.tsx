@@ -10,7 +10,6 @@ interface GalleryProps {
 const Gallery: React.FC<GalleryProps> = ({ products, initialFilter }) => {
   const {
     products: filteredProducts,
-    currentFilter,
     setCurrentFilter,
     modalOpen,
     currentProductIndex,

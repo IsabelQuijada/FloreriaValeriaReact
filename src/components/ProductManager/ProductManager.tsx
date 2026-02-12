@@ -23,7 +23,6 @@ const ProductManager: React.FC<ProductManagerProps> = ({
     filteredProducts,
     currentFilter,
     currentSearch,
-    isLoading,
     applyFilter,
     applySearch,
     clearFilters,
@@ -69,15 +68,18 @@ const ProductManager: React.FC<ProductManagerProps> = ({
               >
                 Todos ({totalProducts})
               </button>
-              {categories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => handleFilterChange(category)}
-                  className={`${styles.filterButton} ${currentFilter === category ? styles.active : ''}`}
-                >
-                  {category} ({products.filter(p => p.category === category).length})
-                </button>
-              ))}
+              {categories.map((category) => {
+                if (!category) return null;
+                return (
+                  <button
+                    key={category}
+                    onClick={() => handleFilterChange(category)}
+                    className={`${styles.filterButton} ${currentFilter === category ? styles.active : ''}`}
+                  >
+                    {category} ({products.filter(p => p.category === category).length})
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -95,9 +97,7 @@ const ProductManager: React.FC<ProductManagerProps> = ({
       </div>
 
       {/* Grid de productos */}
-      {isLoading ? (
-        <div className={styles.loading}>Cargando productos...</div>
-      ) : isEmpty ? (
+      {isEmpty ? (
         <div className={styles.emptyState}>
           <h3>No se encontraron productos</h3>
           <p>Intenta ajustar tus filtros de búsqueda</p>

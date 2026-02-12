@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 export interface Product {
   id: string;
@@ -11,15 +11,21 @@ export interface Product {
 }
 
 export interface ProductActions {
-  onQuickView?: (product: Product, manager?: any) => void;
-  onAddToCart?: (product: Product, manager?: any) => void;
-  onContact?: (product: Product, manager?: any) => void;
+  onQuickView?: (product: Product, manager?: ProductManager) => void;
+  onAddToCart?: (product: Product, manager?: ProductManager) => void;
+  onContact?: (product: Product, manager?: ProductManager) => void;
+}
+
+export interface ProductManager {
+  filteredProducts: Product[];
+  currentFilter: string;
+  applyFilter: (filter: string) => void;
 }
 
 export interface GlobalActions {
-  onQuickView?: (product: Product, manager?: any) => void;
-  onAddToCart?: (product: Product, manager?: any) => void;
-  onContact?: (product: Product, manager?: any) => void;
+  onQuickView?: (product: Product, manager?: ProductManager) => void;
+  onAddToCart?: (product: Product, manager?: ProductManager) => void;
+  onContact?: (product: Product, manager?: ProductManager) => void;
 }
 
 export interface ProductManagerOptions {
@@ -41,7 +47,6 @@ export function useProductManager({
 }: UseProductManagerConfig) {
   const [currentFilter, setCurrentFilter] = useState<string>('all');
   const [currentSearch, setCurrentSearch] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const defaultOptions: ProductManagerOptions = {
     enableLazyLoading: true,
@@ -83,17 +88,17 @@ export function useProductManager({
       actions: {
         ...globalActions,
         ...product.actions,
-        onQuickView: (config: Product, element?: any) => {
-          globalActions.onQuickView?.(config, element);
-          product.actions?.onQuickView?.(config, element);
+        onQuickView: (config: Product, manager?: ProductManager) => {
+          globalActions.onQuickView?.(config, manager);
+          product.actions?.onQuickView?.(config, manager);
         },
-        onAddToCart: (config: Product, element?: any) => {
-          globalActions.onAddToCart?.(config, element);
-          product.actions?.onAddToCart?.(config, element);
+        onAddToCart: (config: Product, manager?: ProductManager) => {
+          globalActions.onAddToCart?.(config, manager);
+          product.actions?.onAddToCart?.(config, manager);
         },
-        onContact: (config: Product, element?: any) => {
-          globalActions.onContact?.(config, element);
-          product.actions?.onContact?.(config, element);
+        onContact: (config: Product, manager?: ProductManager) => {
+          globalActions.onContact?.(config, manager);
+          product.actions?.onContact?.(config, manager);
         }
       }
     };
@@ -126,7 +131,6 @@ export function useProductManager({
     filteredProducts,
     currentFilter,
     currentSearch,
-    isLoading,
     options: defaultOptions,
 
     // Métodos
