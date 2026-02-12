@@ -1,0 +1,146 @@
+/* LazyLoader CSS */
+
+.lazy-loading {
+  opacity: 0.7;
+  background-color: #f0f0f0;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+  animation: lazy-loading-shimmer 1.5s infinite linear;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-loaded {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-error {
+  opacity: 0.6;
+  border: 1px dashed #ccc;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+  min-height: 150px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lazy-error:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.lazy-loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.lazy-error-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  background-color: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lazy-error-wrapper:hover {
+  background-color: #e9ecef;
+  border-color: #999;
+}
+
+/* Animación de carga */
+@keyframes lazy-loading-shimmer {
+  0% {
+    background-position: -20px 0;
+  }
+  100% {
+    background-position: 20px 0;
+  }
+}
+
+/* Estilos para diferentes estados */
+.lazy-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.lazy-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Placeholder personalizable */
+.lazy-placeholder {
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+/* Estados responsive */
+@media (max-width: 768px) {
+  .lazy-loading,
+  .lazy-error,
+  .lazy-loading-wrapper,
+  .lazy-error-wrapper {
+    min-height: 120px;
+  }
+  
+  .lazy-error {
+    font-size: 0.8rem;
+  }
+}
+
+/* Fade-in effect para imágenes cargadas */
+.lazy-loaded {
+  animation: lazy-fade-in 0.3s ease-in;
+}
+
+@keyframes lazy-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Skeleton loading effect alternativo */
+.lazy-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: lazy-skeleton-loading 1.5s infinite;
+}
+
+@keyframes lazy-skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

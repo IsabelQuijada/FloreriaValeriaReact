@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import ProductManager from './components/ProductManager/ProductManager';
 import ImageManager from './components/BaseImageManager/ImageManager';
+import { LazyImage, LazyLoader } from './components/LazyLoader';
+import EventManagerDemo from './components/EventManagerDemo';
 
 const demoProducts = [
   {
@@ -145,6 +147,32 @@ function App() {
         >
           Image Manager
         </button>
+        <button 
+          onClick={() => setActiveView('lazyLoader')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: activeView === 'lazyLoader' ? '#e91e63' : '#ddd',
+            color: activeView === 'lazyLoader' ? 'white' : 'black',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          Lazy Loader
+        </button>
+        <button 
+          onClick={() => setActiveView('eventManager')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: activeView === 'eventManager' ? '#e91e63' : '#ddd',
+            color: activeView === 'eventManager' ? 'white' : 'black',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          Event Manager
+        </button>
       </div>
 
       {/* Vistas */}
@@ -169,6 +197,62 @@ function App() {
             imageDatabase={imageDatabaseDemo}
           />
         </div>
+      )}
+
+      {activeView === 'lazyLoader' && (
+        <div>
+          <h1>Demo Lazy Loader</h1>
+          <LazyLoader>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+              {/* LazyImage con loading personalizado */}
+              <div>
+                <h3>LazyImage con Loading</h3>
+                <LazyImage
+                  src="https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80"
+                  alt="Ramo Clásico"
+                  style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }}
+                  loadingComponent={<div style={{ padding: '2rem', textAlign: 'center' }}>⏳ Cargando...</div>}
+                  onLoad={(src) => console.log('Imagen cargada:', src)}
+                />
+              </div>
+
+              {/* LazyImage con fallback */}
+              <div>
+                <h3>LazyImage con Fallback</h3>
+                <LazyImage
+                  src="https://invalid-url-will-fail.com/image.jpg"
+                  fallbackSrc="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80"
+                  alt="Imagen con fallback"
+                  style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }}
+                  onImageError={(error: string) => console.log('Error de imagen:', error)}
+                />
+              </div>
+
+              {/* Múltiples LazyImages */}
+              <div>
+                <h3>Múltiples Imágenes</h3>
+                {demoProducts.map(product => (
+                  <LazyImage
+                    key={product.id}
+                    src={product.image}
+                    alt={product.name}
+                    style={{ 
+                      width: '100%', 
+                      height: '150px', 
+                      objectFit: 'cover', 
+                      borderRadius: '6px',
+                      marginBottom: '1rem'
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </LazyLoader>
+        </div>
+      )}
+
+      {activeView === 'eventManager' && (
+        <EventManagerDemo />
       )}
     </div>
   );

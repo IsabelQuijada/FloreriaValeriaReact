@@ -1,0 +1,371 @@
+/* EventManager Demo Styles */
+.event-manager-demo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.event-manager-demo h2 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2.5em;
+}
+
+.event-manager-demo h3 {
+  color: #34495e;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+}
+
+.section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #3498db;
+}
+
+/* Stats Section */
+.stats-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin-bottom: 30px;
+}
+
+.stats-section h3 {
+  color: white;
+  border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-weight: 500;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #fff;
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button-group button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.button-group button.danger {
+  background: #e74c3c;
+}
+
+.button-group button.danger:hover {
+  background: #c0392b;
+}
+
+/* Test Buttons */
+#demo-basic-btn,
+#demo-debounce-btn,
+#demo-throttle-btn {
+  background: #27ae60;
+  margin-right: 10px;
+}
+
+#demo-basic-btn:hover,
+#demo-debounce-btn:hover,
+#demo-throttle-btn:hover {
+  background: #229954;
+}
+
+/* Delegation Container */
+.delegation-container {
+  background: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.delegated-btn {
+  background: #9b59b6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.delegated-btn:hover {
+  background: #8e44ad;
+}
+
+/* Mobile Menu */
+.mobile-menu-demo {
+  position: relative;
+}
+
+.menu-toggle {
+  background: #34495e;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.nav-menu.active {
+  display: block;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.nav-menu a:hover {
+  background: #f8f9fa;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #e67e22;
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background: #d35400;
+  transform: translateY(-5px);
+}
+
+/* Outside Click Area */
+.outside-click-area {
+  background: #ffeaa7;
+  border: 2px dashed #fdcb6e;
+  padding: 30px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.outside-click-area p {
+  margin: 10px 0;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-controls button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.modal-controls button:hover {
+  background: #2980b9;
+}
+
+/* Log Section */
+.log-section {
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+
+.log-section h3 {
+  color: #ecf0f1;
+  border-bottom-color: #34495e;
+}
+
+.log-container {
+  background: #34495e;
+  border-radius: 8px;
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.log-entry {
+  background: #455a64;
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  border-left: 3px solid #3498db;
+}
+
+.log-empty {
+  text-align: center;
+  color: #95a5a6;
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.log-section button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.log-section button:hover {
+  background: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .event-manager-demo {
+    padding: 15px;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .button-group button {
+    width: 100%;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    margin: 20px;
+    padding: 30px;
+  }
+  
+  .modal-controls {
+    flex-direction: column;
+  }
+}
